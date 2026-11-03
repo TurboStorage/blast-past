@@ -1,0 +1,32 @@
+{
+  "name": "blast-past",
+  "version": "2.0.0",
+  "private": true,
+  "description": "A fast, browser-native top-down helicopter roguelite.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "serve": "python -m http.server 8765 --bind 127.0.0.1",
+    "test": "node tests/verify.mjs",
+    "test:extended": "node tests/extended.mjs",
+    "test:golden": "node tests/golden.mjs",
+    "golden:update": "node tests/golden.mjs --update",
+    "test:unit": "node --test tests/unit/*.test.mjs",
+    "gallery": "node tests/gallery.mjs",
+    "coverage": "node scripts/coverage.mjs",
+    "package": "node scripts/package.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0",
+    "fflate": "^0.8.3",
+    "globals": "^17.12.0",
+    "playwright": "^1.58.0",
+    "prettier": "^3.9.9"
+  },
+  "type": "module"
+}

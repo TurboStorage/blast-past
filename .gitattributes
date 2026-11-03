@@ -1,0 +1,7 @@
+# Normalize line endings to LF in the repository regardless of the checkout
+# platform's core.autocrlf setting, so diffs stop showing whole-file rewrites.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary

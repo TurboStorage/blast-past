@@ -1,0 +1,20 @@
+# Local dependencies
+node_modules/
+
+# Generated browser-test artifacts
+output/
+playwright-report/
+test-results/
+
+# Local tooling and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# Agent worktrees
+.claude/
+
+# Packaged builds
+dist/

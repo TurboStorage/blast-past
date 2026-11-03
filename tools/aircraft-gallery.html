@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Blast Past // Aircraft gallery</title>
+    <style>
+      :root {
+        --bg: #102027;
+        --ink: #d6e2dc;
+        --muted: #7f9a93;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          12px Consolas,
+          monospace;
+      }
+      header {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        padding: 10px 16px;
+        color: var(--muted);
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <strong>AIRCRAFT GALLERY</strong>
+      <label><input id="elite" type="checkbox" /> elite livery</label>
+      <label><input id="freeze" type="checkbox" /> freeze rotors</label>
+      <span
+        >?id=kestrel&amp;t=0.5 filters and freezes; dev only, not shipped.</span
+      >
+    </header>
+    <canvas id="gallery"></canvas>
+    <script src="../js/core/namespace.js"></script>
+    <script src="../js/core/math.js"></script>
+    <script src="../js/content/hardpoints.js"></script>
+    <script src="../js/render/liveries.js"></script>
+    <script src="../js/render/airframe-kit.js"></script>
+    <script src="../js/render/rotor.js"></script>
+    <script src="../js/render/aircraft.js"></script>
+    <script src="../js/render/airframes/registry.js"></script>
+    <script src="../js/render/airframes/kestrel.js"></script>
+    <script src="../js/render/airframes/little-bird.js"></script>
+    <script src="../js/render/airframes/hind.js"></script>
+    <script src="../js/render/airframes/ka52.js"></script>
+    <script src="../js/render/airframes/chinook.js"></script>
+    <script src="../js/render/airframes/black-hawk.js"></script>
+    <script src="../js/render/airframes/mi17.js"></script>
+    <script src="../js/render/airframes/fixed-wing.js"></script>
+    <script src="../js/render/airframes/drones.js"></script>
+    <script src="../js/render/airframes/carrier.js"></script>
+    <script>
+      "use strict";
+      (() => {
+        const B = window.BP,
+          params = new URLSearchParams(location.search),
+          only = params.get("id"),
+          fixedClock = params.has("t") ? Number(params.get("t")) : null,
+          canvas = document.getElementById("gallery"),
+          c = canvas.getContext("2d"),
+          BACKDROPS = ["#1f3533", "#143c46", "#212c3e"],
+          CELL_W = 420,
+          CELL_H = 380,
+          HEADINGS = [-Math.PI / 2, -Math.PI / 2 + 0.6, 0, Math.PI / 2];
+        const ids = B.Airframes.ids().filter((id) => !only || id === only);
+        const cols = Math.max(
+          1,
+          Math.min(ids.length, Math.floor(innerWidth / CELL_W)),
+        );
+        const rows = Math.ceil(ids.length / cols);
+        const dpr = Math.min(devicePixelRatio || 1, 2);
+        canvas.width = cols * CELL_W * dpr;
+        canvas.height = rows * CELL_H * dpr;
+        canvas.style.width = cols * CELL_W + "px";
+        canvas.style.height = rows * CELL_H + "px";
+        B.Aircraft.setDpr(dpr);
+        let clock = fixedClock ?? 0,
+          last = performance.now();
+
+        function cell(id, i, t) {
+          const spec = B.Airframes.get(id),
+            x0 = (i % cols) * CELL_W,
+            y0 = Math.floor(i / cols) * CELL_H,
+            elite = document.getElementById("elite").checked;
+          c.fillStyle = BACKDROPS[i % BACKDROPS.length];
+          c.fillRect(x0 + 4, y0 + 4, CELL_W - 8, CELL_H - 8);
+          c.fillStyle = "#d6e2dc";
+          c.fillText(`${spec.name}  [${id}]`, x0 + 14, y0 + 22);
+          const big = {
+            x: x0 + 150,
+            y: y0 + 200,
+            heading: -Math.PI / 2,
+            scale: 2.4,
+            elite,
+            seed: i,
+          };
+          B.Aircraft.drawShadow(c, spec, big);
+          B.Aircraft.draw(
+            c,
+            spec,
+            { ...big, loadout: { rockets: 1, missiles: 1 } },
+            t,
+          );
+          HEADINGS.forEach((heading, k) => {
+            const pose = {
+              x: x0 + 340,
+              y: y0 + 60 + k * 82,
+              heading,
+              scale: 1,
+              elite,
+              seed: k,
+            };
+            B.Aircraft.drawShadow(c, spec, pose);
+            B.Aircraft.draw(c, spec, pose, t);
+          });
+        }
+
+        function frame(now) {
+          const dt = Math.min(0.05, (now - last) / 1000);
+          last = now;
+          if (fixedClock == null && !document.getElementById("freeze").checked)
+            clock += dt;
+          c.setTransform(dpr, 0, 0, dpr, 0, 0);
+          c.fillStyle = "#0b171c";
+          c.fillRect(0, 0, cols * CELL_W, rows * CELL_H);
+          c.font = "12px Consolas, monospace";
+          ids.forEach((id, i) => cell(id, i, clock));
+          window.galleryReady = true;
+          if (fixedClock == null) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      })();
+    </script>
+  </body>
+</html>

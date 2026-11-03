@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>BLAST PAST // Aerial Roguelite</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas
+      id="gameCanvas"
+      aria-label="Blast Past aerial combat battlefield"
+    ></canvas>
+    <div id="hud" hidden></div>
+    <button id="quickPause" aria-label="Pause">Ⅱ</button>
+    <main id="overlay"></main>
+    <!-- Classic scripts sharing window.BP; order matters, no build step. -->
+    <script src="js/core/namespace.js"></script>
+    <script src="js/core/math.js"></script>
+    <script src="js/core/config.js"></script>
+    <script src="js/core/rng.js"></script>
+    <script src="js/core/input.js"></script>
+    <script src="js/services/persistence.js"></script>
+    <script src="js/services/audio-recipes.js"></script>
+    <script src="js/services/audio-synth.js"></script>
+    <script src="js/services/audio.js"></script>
+    <script src="js/content/sectors.js"></script>
+    <script src="js/content/upgrades.js"></script>
+    <script src="js/content/achievements.js"></script>
+    <script src="js/content/enemies.js"></script>
+    <script src="js/content/hardpoints.js"></script>
+    <script src="js/sim/player.js"></script>
+    <script src="js/sim/encounter-kit.js"></script>
+    <script src="js/sim/enemy-ai.js"></script>
+    <script src="js/sim/bosses.js"></script>
+    <script src="js/sim/director.js"></script>
+    <script src="js/sim/environment.js"></script>
+    <script src="js/sim/weapons.js"></script>
+    <script src="js/sim/attitude.js"></script>
+    <script src="js/render/draw.js"></script>
+    <script src="js/render/liveries.js"></script>
+    <script src="js/render/airframe-kit.js"></script>
+    <script src="js/render/rotor.js"></script>
+    <script src="js/render/aircraft.js"></script>
+    <script src="js/render/airframes/registry.js"></script>
+    <script src="js/render/airframes/kestrel.js"></script>
+    <script src="js/render/airframes/little-bird.js"></script>
+    <script src="js/render/airframes/hind.js"></script>
+    <script src="js/render/airframes/ka52.js"></script>
+    <script src="js/render/airframes/chinook.js"></script>
+    <script src="js/render/airframes/black-hawk.js"></script>
+    <script src="js/render/airframes/mi17.js"></script>
+    <script src="js/render/airframes/fixed-wing.js"></script>
+    <script src="js/render/airframes/drones.js"></script>
+    <script src="js/render/airframes/carrier.js"></script>
+    <script src="js/render/renderer.js"></script>
+    <script src="js/render/terrain.js"></script>
+    <script src="js/render/hangar.js"></script>
+    <script src="js/render/fleet.js"></script>
+    <script src="js/render/bosses.js"></script>
+    <script src="js/render/props.js"></script>
+    <script src="js/render/fx.js"></script>
+    <script src="js/ui/format.js"></script>
+    <script src="js/ui/ui.js"></script>
+    <script src="js/ui/overlays.js"></script>
+    <script src="js/ui/hud.js"></script>
+    <script src="js/game/game.js"></script>
+    <script src="js/game/snapshot.js"></script>
+    <script src="js/sim/spawning.js"></script>
+    <script src="js/sim/combat.js"></script>
+    <script src="js/sim/projectiles.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
